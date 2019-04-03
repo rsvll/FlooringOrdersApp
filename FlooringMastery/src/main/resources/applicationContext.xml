@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/mvc
+          http://www.springframework.org/schema/mvc/spring-mvc.xsd
+          http://www.springframework.org/schema/tx
+          http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+          http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context.xsd
+          http://www.springframework.org/schema/aop  
+          http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+
+    <!-- Bean definitions go here -->
+    <!-- 
+     userIO myIo = new userIOConsoleImpl();
+     //userIOConsoleImpl myIO = new userIOConsoleImpl();
+     view myView = new view(myIo);
+     ProductionFlooringMasteryDao myDao = new DaoImpl();
+     AuditDao auditDao = new DaoImpl();
+     ServiceLayer mySL = new ServiceLayerImpl(myDao, auditDao);
+     controlla myControlla = new controlla(myView, mySL);
+     myControlla.run();
+    -->
+    <bean id="userIO" class="FlooringMastery.ui.userIOConsoleImpl"/>
+    
+    <bean id="view" class="FlooringMastery.ui.view">
+        <constructor-arg ref="userIO"/>
+    </bean>
+    
+    <bean id="Dao" class="FlooringMastery.dao.DaoImpl"/>
+    <bean id="auditDao" class="FlooringMastery.dao.AuditDaoImpl"/>
+    
+    <bean id="serviceLayer" class="FlooringMastery.Service.ServiceLayerImpl">
+        <constructor-arg ref="Dao"/>
+        <constructor-arg ref="auditDao"/>
+    </bean>    
+    
+    <bean id="controlla" class="FlooringMastery.controller.controlla">
+        <constructor-arg ref="view"/>  
+        <constructor-arg ref="serviceLayer"/>
+          
+    </bean> 
+        
+   
+</beans>
